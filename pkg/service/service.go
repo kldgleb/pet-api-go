@@ -7,7 +7,8 @@ import (
 
 type Authorization interface {
 	CreateUser(user entity.User) (int, error)
-	//getJWTByCredentials(password, username string) (entity.User, error)
+	GetJWTByCredentials(password, username string) (string, error)
+	ParseToken(accessToken string) (int, error)
 }
 
 type TodoList interface {

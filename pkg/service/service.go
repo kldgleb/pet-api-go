@@ -1,8 +1,13 @@
 package service
 
-import "test-api/pkg/repository"
+import (
+	"test-api/pkg/entity"
+	"test-api/pkg/repository"
+)
 
 type Authorization interface {
+	CreateUser(user entity.User) (int, error)
+	//getJWTByCredentials(password, username string) (entity.User, error)
 }
 
 type TodoList interface {
@@ -17,6 +22,6 @@ type Service struct {
 	TodoItem
 }
 
-func NewService(repos *repository.Repository) *Service {
-	return &Service{}
+func NewService(repos repository.Authorization) *Service {
+	return &Service{Authorization: NewAuthService(repos)}
 }

@@ -1,6 +1,12 @@
 package repository
 
+import (
+	"github.com/jmoiron/sqlx"
+	"test-api/pkg/entity"
+)
+
 type Authorization interface {
+	CreateUser(user entity.User) (int, error)
 }
 
 type TodoList interface {
@@ -15,6 +21,6 @@ type Repository struct {
 	TodoList
 }
 
-func NewRepository() *Repository {
-	return &Repository{}
+func NewRepository(db *sqlx.DB) *Repository {
+	return &Repository{Authorization: NewAuthPostgres(db)}
 }

@@ -5,15 +5,16 @@ import (
 	"errors"
 	"fmt"
 	"github.com/golang-jwt/jwt"
+	"github.com/sirupsen/logrus"
 	"test-api/pkg/entity"
 	"test-api/pkg/repository"
 	"time"
 )
 
 const (
-	salt       = "kfaksmdkasmdsklasdmadmaadloaksld"
-	tokenTTL   = 12 * time.Hour
-	signingKey = "qpowepqscavfjnweijralsalfkamsfmapwjdakmsd"
+	salt       = "12hdhqwejkdbka"
+	signingKey = "dsadaskm@122312dsa"
+	tokenTTL   = 24 * time.Hour * 30
 )
 
 type AuthService struct {
@@ -31,6 +32,7 @@ func NewAuthService(repo repository.Authorization) *AuthService {
 
 func (s *AuthService) CreateUser(user entity.User) (int, error) {
 	user.Password = s.generatePasswordHash(user.Password)
+	logrus.Print(user.Password)
 	return s.repo.CreateUser(user)
 }
 

@@ -9,7 +9,7 @@ import (
 func (h *Handler) signUp(c *gin.Context) {
 	var input entity.User
 	if err := c.BindJSON(&input); err != nil {
-		NewErrorResponse(c, http.StatusBadRequest, err.Error())
+		NewErrorResponse(c, http.StatusBadRequest, "invalid input body")
 		return
 	}
 	id, err := h.services.CreateUser(input)
@@ -23,25 +23,20 @@ func (h *Handler) signUp(c *gin.Context) {
 	})
 }
 
-type signInInput struct {
-	Username string `json:"username" binding:"required"`
-	Password string `json:"password" binding:"required"`
-}
-
 func (h *Handler) signIn(c *gin.Context) {
-	var input signInInput
+	var input entity.SignInInput
 	if err := c.BindJSON(&input); err != nil {
 		NewErrorResponse(c, http.StatusBadRequest, err.Error())
 		return
 	}
-	token, err := h.services.Authorization.GetJWTByCredentials(input.Username, input.Password)
+	token, err := h.services.Authorization.GetJWTByCredentials(input)
 
 	if err != nil {
 		NewErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
 	}
 
-	c.JSON(http.StatusCreated, map[string]interface{}{
+	c.JSON(http.StatusOK, map[string]interface{}{
 		"token": token,
 	})
 }

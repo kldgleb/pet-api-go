@@ -36,8 +36,8 @@ func (s *AuthService) CreateUser(user entity.User) (int, error) {
 	return s.repo.CreateUser(user)
 }
 
-func (s *AuthService) GetJWTByCredentials(username, password string) (string, error) {
-	user, err := s.repo.GetUserByCredentials(username, s.generatePasswordHash(password))
+func (s *AuthService) GetJWTByCredentials(input entity.SignInInput) (string, error) {
+	user, err := s.repo.GetUserByCredentials(input.Username, s.generatePasswordHash(input.Password))
 	if err != nil {
 		return "", err
 	}

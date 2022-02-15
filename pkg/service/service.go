@@ -7,7 +7,7 @@ import (
 
 type Authorization interface {
 	CreateUser(user entity.User) (int, error)
-	GetJWTByCredentials(password, username string) (string, error)
+	GetJWTByCredentials(input entity.SignInInput) (string, error)
 	ParseToken(accessToken string) (int, error)
 }
 

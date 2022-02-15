@@ -25,7 +25,7 @@ func (h *Handler) createList(c *gin.Context) {
 		NewErrorResponse(c, http.StatusInternalServerError, "error while creating todoList")
 		return
 	}
-	c.JSON(http.StatusOK, map[string]interface{}{
+	c.JSON(http.StatusCreated, map[string]interface{}{
 		"listId": listId,
 	})
 }
